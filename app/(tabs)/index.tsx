@@ -1,66 +1,202 @@
-import { Image, StyleSheet, Platform, View, Text } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  Pressable,
+  SafeAreaView,
+  StatusBar,
+} from "react-native";
+import React, { useState } from "react";
+import { Octicons, Ionicons } from "@expo/vector-icons";
+import { SimpleLineIcons } from "@expo/vector-icons";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+// import { HelloWave } from "@/components/HelloWave";
+// import ParallaxScrollView from "@/components/ParallaxScrollView";
+// import { ThemedText } from "@/components/ThemedText";
+// import { ThemedView } from "@/components/ThemedView";
 
-import { Link } from 'expo-router';
+// import Carousel from "../../components/Carousel";
+import Anothercarousel from "../../components/Anothercarousel";
+import Categories from "../../components/Categories";
+import Recommended from "../../components/Recommended";
+// import Menu from "../../components/Menu";
+import LastOrders from "../../components/LastOrders";
+import Noncense from "../../components/Noncense";
+
+// import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+// import { Link } from "expo-router";
+
+import { useSelector } from "react-redux";
+
+// import { useDispatch } from "react-redux";
+// import { savenonce } from "../../redux/CartReducer";
+
+// import { useQuery, useQueries } from "@tanstack/react-query";
+
+// import fethNonce from "../../scripts/fetchNonce";
 // import { View, Text, StyleSheet } from 'react-native';
 
+// import { createDrawerNavigator } from "@react-navigation/drawer";
+// import { NavigationContainer } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
+
 export default function HomeScreen() {
+  const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
+    "no default address ...",
+  );
+
+  // ------------------------
+  // const dispatch = useDispatch();
+
+  // const wcNonce = useQuery({
+  //   queryKey: ["nonce"],
+  //   queryFn: fethNonce,
+  // });
+
+  // if (wcNonce.isPending) {
+  //   return <Text>wcNonce Loading...</Text>;
+  // }
+
+  // if (wcNonce.isError) {
+  //   return <Text>Error: {error.message}</Text>;
+  // }
+
+  // console.log("wcNonce", wcNonce);
+
+  // const sosi = wcNonce.data;
+
+  const navigation = useNavigation();
+  // dispatch(savenonce(sosi));
+  // ------------------------
+
+  const savednonce = useSelector((state) => state.cart.nonce);
+  console.log("savednonce", savednonce);
+
+  const hardcodedUsedCats = [21, 23, 22, 16, 24, 19, 35];
+
+  // const wcNonce = fethNonce();
+
   return (
-    // <ParallaxScrollView
-    //   headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-    //   headerImage={
-    //     <Image
-    //       source={require('@/assets/images/partial-react-logo.png')}
-    //       style={styles.reactLogo}
-    //     />
-    //   }>
-    //   <ThemedView style={styles.titleContainer}>
-    //     <ThemedText type="title">Welcome! fff</ThemedText>
-    //     <HelloWave />
-    //   </ThemedView>
-    //   <ThemedView style={styles.stepContainer}>
-    //     <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-    //     <ThemedText>
-    //       Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-    //       Press{' '}
-    //       <ThemedText type="defaultSemiBold">
-    //         {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-    //       </ThemedText>{' '}
-    //       to open developer tools.
-    //     </ThemedText>
-    //   </ThemedView>
-    //   <ThemedView style={styles.stepContainer}>
-    //     <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-    //     <ThemedText>
-    //       Tap the Explore tab to learn more about what's included in this starter app.
-    //     </ThemedText>
-    //   </ThemedView>
-    //   <ThemedView style={styles.stepContainer}>
-    //     <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-    //     <ThemedText>
-    //       When you're ready, run{' '}
-    //       <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-    //       <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-    //       <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-    //       <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-    //     </ThemedText>
-    //   </ThemedView>
-    // </ParallaxScrollView>
-    <View style={styles.container}>
-      <Text style={styles.numberText}>Home</Text>
-      <Link href="/explore">View details</Link>
-    </View>
+    <SafeAreaView style={styles.safecontainer}>
+      <ScrollView
+        style={{
+          flex: 1,
+          backgroundColor: "#f8f8f8",
+          paddingTop: StatusBar.currentHeight,
+        }}
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 12,
+            padding: 10,
+          }}
+        >
+          <Ionicons
+            style={{
+              paddingRight: 10,
+              paddingLeft: 8,
+            }}
+            name="menu"
+            size={26}
+            color="black"
+            onPress={() => navigation.openDrawer()}
+            title="Go to Drawer"
+          />
+
+          <Octicons name="location" size={24} color="#E52850" />
+          <View style={{ flex: 1 }}>
+            <Text style={{ fontSize: 15, fontWeight: "500" }}>Delivery To</Text>
+            <Text style={{ color: "gray", fontSize: 16, marginTop: 3 }}>
+              {displayCurrentAddress}
+            </Text>
+          </View>
+          <Pressable
+            style={{
+              backgroundColor: "#6CB4EE",
+              width: 40,
+              height: 40,
+              borderRadius: 20,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {/*<Text>S</Text>*/}
+            <SimpleLineIcons name="user-follow" size={20} color="black" />
+          </Pressable>
+        </View>
+        {/*<Carousel />*/}
+        <Anothercarousel />
+        <Text
+          style={{
+            textAlign: "center",
+            marginTop: 24,
+            letterSpacing: 4,
+            marginBottom: 6,
+            color: "gray",
+          }}
+          onPress={() => navigation.navigate("foodmenu")}
+          title="Go to food menu"
+        >
+          MENU
+        </Text>
+
+        {/*<QueryClientProvider client={queryClient}>*/}
+        <Categories cats={hardcodedUsedCats} />
+
+        <Text
+          style={{
+            textAlign: "center",
+            marginTop: 12,
+            letterSpacing: 4,
+            marginBottom: 6,
+            color: "gray",
+          }}
+        >
+          РЕКОМЕНДУЄМО
+        </Text>
+        {/*<Noncense />*/}
+        <Recommended />
+        <LastOrders />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
+          <Text
+            style={
+              {
+                // textAlign: "center",
+                // marginTop: 24,
+                // letterSpacing: 4,
+                // marginBottom: 6,
+                // color: "gray",
+              }
+            }
+          >
+            ❤️ 2024, Vse dla sushi{" "}
+          </Text>
+          {/*{savednonce != 0 && <Noncense />}*/}
+          <Noncense />
+        </View>
+        {/*</QueryClientProvider>*/}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safecontainer: {
+    flex: 1,
+    // paddingTop: StatusBar.currentHeight,
+  },
   titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
   },
   stepContainer: {
@@ -72,14 +208,14 @@ const styles = StyleSheet.create({
     width: 290,
     bottom: 0,
     left: 0,
-    position: 'absolute',
+    position: "absolute",
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   numberText: {
-    color: 'pink',
+    color: "pink",
   },
 });

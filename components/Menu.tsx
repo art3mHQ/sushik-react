@@ -6,6 +6,7 @@ import {
   ScrollView,
   SectionList,
   ActivityIndicator,
+  StatusBar,
 } from "react-native";
 
 // import { SvgUri, Svg } from "react-native-svg";
@@ -34,7 +35,7 @@ const Menu = (props) => {
   });
 
   if (prod_list.isPending) {
-    return <ActivityIndicator size="large" />;
+    return <ActivityIndicator style={styles.safecontainer} size="large" />;
   }
 
   const productsList = prod_list.data;
@@ -169,6 +170,11 @@ const Menu = (props) => {
 export default Menu;
 
 const styles = StyleSheet.create({
+  safecontainer: {
+    flex: 1,
+    paddingTop: StatusBar.currentHeight,
+    justifyContent: "center",
+  },
   container: {
     marginHorizontal: 6,
   },

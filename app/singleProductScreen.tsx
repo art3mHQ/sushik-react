@@ -95,7 +95,11 @@ const singleProduct = () => {
 		});
 
 		if (fetchedVars.isPending) {
-			return <Text>Vars Loading...</Text>;
+			return (
+				<View style={styles.safecontainer}>
+					<ActivityIndicator />
+				</View>
+			);
 		}
 
 		if (fetchedVars.isError) {
@@ -281,6 +285,11 @@ const styles = StyleSheet.create({
 	sizeText: {
 		fontSize: 16,
 		fontWeight: "400",
+	},
+	safecontainer: {
+		flex: 1,
+		paddingTop: StatusBar.currentHeight,
+		justifyContent: "center",
 	},
 });
 

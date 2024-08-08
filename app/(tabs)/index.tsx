@@ -160,7 +160,7 @@ export default function HomeScreen() {
         </Text>
         {/*<Noncense />*/}
         <Recommended nav={navigation} />
-        <LastOrders />
+        <LastOrders nav={navigation} />
         <View
           style={{
             flexDirection: "row",

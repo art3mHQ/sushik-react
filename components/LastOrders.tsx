@@ -6,6 +6,7 @@ import {
   ScrollView,
   SectionList,
   Platform,
+  Pressable,
 } from "react-native";
 
 import React from "react";
@@ -17,7 +18,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import fetchOrders from "../scripts/fetchOrders";
 import timeAgo from "../scripts/timeAgo";
 
-const LastOrders = () => {
+const LastOrders = (props) => {
   const lastOrdersList = useQuery({
     queryKey: ["orders"],
     queryFn: fetchOrders,
@@ -33,7 +34,7 @@ const LastOrders = () => {
 
   const lastOrdersLs = lastOrdersList.data;
 
-  // console.log("lastOrdersLs from LastOrders:", lastOrdersLs);
+  console.log("lastOrdersLs from LastOrders:", lastOrdersLs);
 
   return (
     <View>
@@ -53,7 +54,7 @@ const LastOrders = () => {
         {/*we grab products form last orders*/}
         {lastOrdersLs.map((proditem) => (
           <View
-            key={proditem.id + "recent_orders"}
+            key={proditem.id + proditem.parent + "_recent_orders"}
             style={{
               marginHorizontal: 6,
               marginVertical: 12,
@@ -68,7 +69,7 @@ const LastOrders = () => {
                 borderTopLeftRadius: 6,
                 borderTopRightRadius: 6,
               }}
-              source={{ uri: proditem?.image }}
+              source={{ uri: proditem?.images[0].src }}
             />
             <View
               style={{
@@ -101,7 +102,7 @@ const LastOrders = () => {
                   ordered {timeAgo(proditem.order_date)} тому
                 </Text>
               </View>
-              <View
+              <Pressable
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
@@ -112,12 +113,17 @@ const LastOrders = () => {
                   marginRight: 10,
                   gap: 3,
                 }}
+                onPress={() =>
+                  props.nav.navigate("singleProductScreen", {
+                    product: proditem,
+                  })
+                }
               >
                 <MaterialCommunityIcons name="leaf" size={20} color="white" />
                 <Text style={{ textAlign: "center", color: "white" }}>
                   я теж хочу
                 </Text>
-              </View>
+              </Pressable>
             </View>
           </View>
         ))}

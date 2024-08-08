@@ -18,33 +18,64 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { useQuery } from "@tanstack/react-query";
 
 import fetchVariations from "../scripts/fetchVariations";
+import fetchSingleProduct from "../scripts/fetchSingleProduct";
 
 import FooterProduct from "../components/FooterProduct";
 
 const singleProduct = () => {
 	const navigation = useNavigation();
 	const route = useRoute();
-	const { product } = route.params;
+	let { product } = route.params;
 
 	const [selectedSize, setSelectedSize] = useState({
 		size: "40",
 		variationId: "",
 	});
-	// const prodId = route.params.productId;
-
-	console.log("productId from singleProductSc", product);
-
-	const defaultPizzaImage = require("../assets/images/2.file-lososweb-650x240.jpg");
-
-	const sizes = product.variations.map((item) => item.attributes[0].value);
 
 	let variations = [];
+
+	// if (product.type == "variation") {
+	console.log("hi there it is variation?", product.type);
+	// setSelectedSize("")
+	// const fetchedProduct = useQuery({
+	// 	queryKey: ["product", product.id],
+	// 	queryFn: () => fetchSingleProduct(product.parent),
+	// 	enabled: product.type == "variation", // Conditionally enable the first query
+	// });
+
+	// // if (fetchedProduct.isPending) {
+	// // 	return <Text>fetchedProduct Loading...</Text>;
+	// // }
+
+	// // if (fetchedProduct.isError) {
+	// // 	return <Text>Vars Error: {Error.message}</Text>;
+	// // }
+
+	// console.log("fetchedVars", fetchedVars.data);
+
+	// if (fetchedProduct.isSuccess) {
+	// 	product = fetchedProduct.data;
+	// }
+
+	console.log("product from singleProductScreen ---> ", product);
+
+	// const defaultPizzaImage = require("../assets/images/2.file-lososweb-650x240.jpg");
+
+	// const sizes = product.variations.map((item) => item.attributes[0].value);
+	const sizes = ["25", "30", "40"];
+	console.log("sizes", sizes);
 
 	let sizeVariationSet = [];
 
 	if (product.variations.length > 0) {
 		// const sizes = ["S", "M", "XL"];
-		const variationsIds = product.variations.map((item) => item.id);
+
+		console.log("helo from IF");
+		const variationsIds = product.variations.map(
+			// this workaround is for dial with 2 kind of product prop - one from last_order_list
+			// and second from normal store api all_products fetch
+			(item) => item.id || item.variation_id, // this is really great kudos to js
+		);
 
 		sizeVariationSet = sizes.map((size, index) => ({
 			size: size,
@@ -56,6 +87,7 @@ const singleProduct = () => {
 		// console.log("vars", sizeVariationSet);
 		// console.log("selectedSize", selectedSize);
 
+		// if (variations.length > 0) {
 		const fetchedVars = useQuery({
 			queryKey: [`${product.id}_prodVariations`],
 			// queryFn: () => fetchVariations(sizes[0], sizes[1], sizes[2]),
@@ -67,12 +99,13 @@ const singleProduct = () => {
 		}
 
 		if (fetchedVars.isError) {
-			return <Text>Vars Error: {error.message}</Text>;
+			return <Text>Vars Error: {Error.message}</Text>;
 		}
 
 		// console.log("fetchedVars", fetchedVars.data);
 
 		variations = fetchedVars.data;
+		// }
 	}
 	// const [selectedSize, setSelectedSize] = useState<PizzaSize>("M");
 
@@ -97,6 +130,10 @@ const singleProduct = () => {
 	function goBackHandler() {
 		navigation.goBack();
 	}
+
+	console.log("variations", variations);
+	console.log("selectedSize", selectedSize);
+	console.log("selectedPrice", selectedPrice);
 
 	return (
 		<View style={styles.container}>

@@ -63,6 +63,7 @@ function GoodsAdded(props) {
 							>
 								<Text style={{ width: 220, fontSize: 16, fontWeight: "600" }}>
 									{item?.name} {item.variation}
+									{item.variation ? "см" : ""}
 								</Text>
 								<Pressable
 									style={{

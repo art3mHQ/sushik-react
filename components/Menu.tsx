@@ -5,7 +5,7 @@ import {
   View,
   ScrollView,
   SectionList,
-  Platform,
+  ActivityIndicator,
 } from "react-native";
 
 // import { SvgUri, Svg } from "react-native-svg";
@@ -34,7 +34,7 @@ const Menu = (props) => {
   });
 
   if (prod_list.isPending) {
-    return <Text>Prods Loading...</Text>;
+    return <ActivityIndicator size="large" />;
   }
 
   const productsList = prod_list.data;

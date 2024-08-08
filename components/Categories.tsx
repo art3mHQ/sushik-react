@@ -8,6 +8,7 @@ import {
   SectionList,
   Platform,
   Pressable,
+  ActivityIndicator,
 } from "react-native";
 
 import { SvgUri, Svg } from "react-native-svg";
@@ -32,7 +33,7 @@ const Categories = (props) => {
   });
 
   if (cats.isPending) {
-    return <Text>Cats Loading...</Text>;
+    return <ActivityIndicator />;
   }
 
   if (cats.isError) {

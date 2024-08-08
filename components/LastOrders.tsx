@@ -7,6 +7,7 @@ import {
   SectionList,
   Platform,
   Pressable,
+  ActivityIndicator,
 } from "react-native";
 
 import React from "react";
@@ -25,7 +26,7 @@ const LastOrders = (props) => {
   });
 
   if (lastOrdersList.isPending) {
-    return <Text>Ordered Prods Loading...</Text>;
+    return <ActivityIndicator />;
   }
 
   if (lastOrdersList.error) {
@@ -38,18 +39,6 @@ const LastOrders = (props) => {
 
   return (
     <View>
-      <Text
-        style={{
-          textAlign: "center",
-          marginTop: 12,
-          letterSpacing: 4,
-          marginBottom: 6,
-          color: "gray",
-        }}
-      >
-        ОСТАННИI ЗАМОВЛЕННЯ З САЙТУ
-      </Text>
-
       <View style={{ marginHorizontal: 8 }}>
         {/*we grab products form last orders*/}
         {lastOrdersLs.map((proditem) => (

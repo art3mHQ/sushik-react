@@ -160,6 +160,17 @@ export default function HomeScreen() {
         </Text>
         {/*<Noncense />*/}
         <Recommended nav={navigation} />
+        <Text
+          style={{
+            textAlign: "center",
+            marginTop: 12,
+            letterSpacing: 4,
+            marginBottom: 6,
+            color: "gray",
+          }}
+        >
+          ОСТАННИI ЗАМОВЛЕННЯ З САЙТУ
+        </Text>
         <LastOrders nav={navigation} />
         <View
           style={{

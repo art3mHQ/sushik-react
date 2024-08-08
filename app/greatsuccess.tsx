@@ -6,6 +6,8 @@ import {
 	Pressable,
 	TextInput,
 	SafeAreaView,
+	StatusBar,
+	ActivityIndicator,
 } from "react-native";
 import React from "react";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
@@ -53,27 +55,6 @@ const GreatSuccess = () => {
 	let nonce = useSelector((state) => state.cart.nonce);
 	let cartToken = useSelector((state) => state.cart.cartToken);
 
-	// console.log("via GreatSuccess from REDUX Nonce", nonce);
-	// console.log("via GreatSuccess from REDUX cartToken", cartToken);
-
-	// let cartSortly = cart.map((item) => ({
-	// 	if (item.variation) {
-
-	// 		return {
-	//         id: item.parent,
-	// 		quantity: item.quantity,
-	// 		variation: item.variation,
-	//     };
-	// 	} else {
-
-	// 		return {
-	//         id: item.id,
-	// 		quantity: item.quantity,
-	// 		variation: "",
-	//     };
-	// 	}
-	// }));
-
 	let cartSortly = cart.map((item) => {
 		if (item.variation) {
 			// Do something if item.variation is true
@@ -92,10 +73,10 @@ const GreatSuccess = () => {
 		}
 	});
 
-	console.log(
-		"via GreatSuccess from VIA REDUX (calc from cart) cartSortly",
-		cartSortly,
-	);
+	// console.log(
+	// 	"via GreatSuccess from VIA REDUX (calc from cart) cartSortly",
+	// 	cartSortly,
+	// );
 
 	const newOrderData = useQuery({
 		queryKey: ["orderFromWoo"],
@@ -114,22 +95,16 @@ const GreatSuccess = () => {
 	});
 
 	if (newOrderData.isPending) {
-		return <Text>wcNonce Loading...</Text>;
+		return (
+			<View style={styles.safecontainer}>
+				<ActivityIndicator size="large" />
+			</View>
+		);
 	}
 
 	if (newOrderData.isError) {
 		return <Text>Error: {error.message}</Text>;
 	}
-
-	// if (newOrderData.isSuccess) {
-	// dispatch(saveNonce(wcCartData.data.nonce));
-	// dispatch(saveToken(wcCartData.data.cartToken));
-	// if (replay[replay.length - 1].status == "200") {
-	// 	dispatch(emptyCart);
-	// }
-	// }
-
-	// let sosi = "ahhaahah";
 
 	let replay = newOrderData.data.result.responses;
 	// let wcCart = newOrderData.data.wcCart;
@@ -212,7 +187,8 @@ export default GreatSuccess;
 const styles = StyleSheet.create({
 	safecontainer: {
 		flex: 1,
-		// paddingTop: StatusBar.currentHeight,
+		paddingTop: StatusBar.currentHeight,
+		justifyContent: "center",
 	},
 	replayStyle: {
 		textAlign: "center",

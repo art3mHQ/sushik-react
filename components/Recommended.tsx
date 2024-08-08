@@ -7,6 +7,7 @@ import {
   SectionList,
   Platform,
   Pressable,
+  ActivityIndicator,
 } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
@@ -24,7 +25,7 @@ const Recommended = (props) => {
   });
 
   if (recProdList.isPending) {
-    return <Text>Prods Loading...</Text>;
+    return <ActivityIndicator />;
   }
 
   if (recProdList.isError) {

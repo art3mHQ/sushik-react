@@ -26,7 +26,7 @@ const LastOrders = (props) => {
   });
 
   if (lastOrdersList.isPending) {
-    return <ActivityIndicator />;
+    return <ActivityIndicator style={styles.safecontainer} />;
   }
 
   if (lastOrdersList.error) {
@@ -35,7 +35,7 @@ const LastOrders = (props) => {
 
   const lastOrdersLs = lastOrdersList.data;
 
-  console.log("lastOrdersLs from LastOrders:", lastOrdersLs);
+  // console.log("lastOrdersLs from LastOrders:", lastOrdersLs);
 
   return (
     <View>
@@ -123,4 +123,11 @@ const LastOrders = (props) => {
 
 export default LastOrders;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  safecontainer: {
+    flex: 1,
+    height: 200,
+    // paddingTop: StatusBar.currentHeight,
+    justifyContent: "center",
+  },
+});

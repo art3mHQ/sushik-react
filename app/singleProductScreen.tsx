@@ -36,26 +36,6 @@ const singleProduct = () => {
 
 	// if (product.type == "variation") {
 	console.log("hi there it is variation?", product.type);
-	// setSelectedSize("")
-	// const fetchedProduct = useQuery({
-	// 	queryKey: ["product", product.id],
-	// 	queryFn: () => fetchSingleProduct(product.parent),
-	// 	enabled: product.type == "variation", // Conditionally enable the first query
-	// });
-
-	// // if (fetchedProduct.isPending) {
-	// // 	return <Text>fetchedProduct Loading...</Text>;
-	// // }
-
-	// // if (fetchedProduct.isError) {
-	// // 	return <Text>Vars Error: {Error.message}</Text>;
-	// // }
-
-	// console.log("fetchedVars", fetchedVars.data);
-
-	// if (fetchedProduct.isSuccess) {
-	// 	product = fetchedProduct.data;
-	// }
 
 	console.log("product from singleProductScreen ---> ", product);
 

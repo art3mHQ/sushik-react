@@ -35,7 +35,7 @@ const Menu = (props) => {
   });
 
   if (prod_list.isPending) {
-    return <ActivityIndicator style={styles.safecontainer} size="large" />;
+    return <ActivityIndicator style={styles.safecontainer} />;
   }
 
   const productsList = prod_list.data;

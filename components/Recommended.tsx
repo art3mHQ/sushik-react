@@ -80,7 +80,9 @@ const Recommended = (props) => {
 
           <View style={{ padding: 10, flexDirection: "column" }}>
             <Text style={{ fontSize: 15, fontWeight: "500" }}>
-              {item?.name}
+              {item?.name.length > 26
+                ? item.name.substr(0, 23) + "..."
+                : item.name}
             </Text>
             <Text
               style={{

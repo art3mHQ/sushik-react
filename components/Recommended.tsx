@@ -6,6 +6,7 @@ import {
   ScrollView,
   SectionList,
   Platform,
+  Pressable,
 } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
@@ -16,7 +17,7 @@ import { useQuery, useQueries } from "@tanstack/react-query";
 
 import fetchProdsOfCat from "../scripts/fetchProdsOfCat";
 
-const Recommended = () => {
+const Recommended = (props) => {
   const recProdList = useQuery({
     queryKey: ["products_of_cat", 28],
     queryFn: () => fetchProdsOfCat(28),
@@ -33,16 +34,22 @@ const Recommended = () => {
   const recommended = recProdList.data;
   // console.log("recProdList:", recommended);
 
-  const testImg =
-    "https://dev.sushik.km.ua/wp-content/uploads/2019/10/DSC_5817-scaled.jpg";
+  // const testImg =
+  //   "https://dev.sushik.km.ua/wp-content/uploads/2019/10/DSC_5817-scaled.jpg";
 
   const blurhash =
     "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
 
+  // function showProductHandler() {
+  //   navigation.navigate("singleProductScreen", {
+  //     product: item,
+  //   });
+  // }
+
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       {recommended?.map((item, index) => (
-        <View
+        <Pressable
           key={"item_recommended" + index}
           style={{
             backgroundColor: "white",
@@ -51,6 +58,11 @@ const Recommended = () => {
             borderRadius: 8,
             maxWidth: 340,
           }}
+          onPress={() =>
+            props.nav.navigate("singleProductScreen", {
+              product: item,
+            })
+          }
         >
           <View>
             <Image
@@ -87,11 +99,11 @@ const Recommended = () => {
             <View
               style={{ flexDirection: "row", alignItems: "center", gap: 3 }}
             >
-              <Ionicons name="logo-bitcoin" size={24} color="green" />
+              <Ionicons name="pricetag-outline" size={24} color="green" />
               <Text>{item?.prices.price} грн</Text>
             </View>
           </View>
-        </View>
+        </Pressable>
       ))}
     </ScrollView>
   );

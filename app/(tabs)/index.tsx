@@ -159,7 +159,7 @@ export default function HomeScreen() {
           РЕКОМЕНДУЄМО
         </Text>
         {/*<Noncense />*/}
-        <Recommended />
+        <Recommended nav={navigation} />
         <LastOrders />
         <View
           style={{

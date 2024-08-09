@@ -17,7 +17,7 @@ import { useRoute } from "@react-navigation/native";
 export default function foodMenu() {
 	const route = useRoute();
 	// const { gotoId } = route?.params;
-	const gotoId = route?.params?.gotoId ?? "1";
+	const gotoId = route?.params?.gotoId || {};
 	console.log("gotoId", gotoId);
 
 	const hardcodedUsedCats = [21, 23, 22, 16, 24, 19, 35];

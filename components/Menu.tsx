@@ -11,7 +11,7 @@ import {
 
 // import { SvgUri, Svg } from "react-native-svg";
 
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useMemo } from "react";
 
 import { useQuery, useQueries } from "@tanstack/react-query";
 
@@ -28,47 +28,77 @@ import { useFocusEffect } from "@react-navigation/native";
 
 const Menu = (props) => {
   const sectionListRef = useRef(null);
+  const sectionId = props.scrollto;
+  console.log("sectionId", sectionId);
+  // get list of used categories
+  const catsArray = props.cats;
 
-  const prod_list = useQuery({
+  const { data, error, isLoading } = useQuery({
     queryKey: ["products"],
     queryFn: fetchProducts,
   });
 
-  if (prod_list.isPending) {
+  // Process sections data
+  const sections = useMemo(() => {
+    if (data) {
+      // const productsList = prod_list.data;
+
+      const filtredProdList = data.filter((prod) =>
+        catsArray.includes(prod.categories[0]?.id),
+      );
+
+      // acc means accumulator (storage for values)
+      let grouped = filtredProdList.reduce((acc, item) => {
+        if (!acc[item.categories[0].name]) {
+          acc[item.categories[0].name] = [];
+        }
+        acc[item.categories[0].name].push(item);
+        return acc;
+      }, {});
+
+      let DATAset = Object.keys(grouped).map((key) => {
+        return {
+          title: key,
+          data: grouped[key],
+        };
+      });
+
+      DATAset.sort((a, b) => a.title.localeCompare(b.title));
+      DATAset.reverse();
+
+      console.log("DATAset", DATAset);
+
+      // Perform any logic or transformation on the sections here
+      return DATAset;
+    }
+    return [];
+  }, [data]);
+
+  console.log("sections.length", sections.length);
+
+  useEffect(() => {
+    if (sections.length > 0 && sectionId && sectionListRef.current) {
+      // console.log("sections from useEffect", sections);
+      // const index = sections.findIndex(
+      //   (section) => section.title === sectionId,
+      // );
+      // console.log("index from useEffect", index);
+      // console.log("sectionId from useEffect", sectionId);
+      // if (index !== -1) {
+      const index = catsArray
+        .reduce((acc, item) => [item].concat(acc), [])
+        .indexOf(sectionId);
+      sectionListRef.current.scrollToLocation({
+        sectionIndex: index,
+        itemIndex: 0,
+      });
+      // }
+    }
+  }, [sections, sectionId]);
+
+  if (isLoading) {
     return <ActivityIndicator style={styles.safecontainer} />;
   }
-
-  const productsList = prod_list.data;
-  // console.log("prod_list:", productsList);
-
-  // get list of used categories
-  const catsArray = props.cats;
-  console.log(props.cats);
-
-  const filtredProdList = productsList.filter((prod) =>
-    catsArray.includes(prod.categories[0]?.id),
-  );
-
-  // console.log("filtredProdList:", filtredProdList);
-
-  // acc means accumulator (storage for values)
-  let grouped = filtredProdList.reduce((acc, item) => {
-    if (!acc[item.categories[0].name]) {
-      acc[item.categories[0].name] = [];
-    }
-    acc[item.categories[0].name].push(item);
-    return acc;
-  }, {});
-
-  let DATA = Object.keys(grouped).map((key) => {
-    return {
-      title: key,
-      data: grouped[key],
-    };
-  });
-
-  DATA.sort((a, b) => a.title.localeCompare(b.title));
-  DATA.reverse();
 
   const renderItem = ({ item }) => (
     <View style={styles.item}>
@@ -114,36 +144,20 @@ const Menu = (props) => {
 
   console.log("go to the card No", props.scrollto);
 
-  // get index of category id
-  // const goToCategory = props.scrollto ? cats.indexOf(props.scrollto) : 1;
-
-  // if (props.scrollto) {
-  //   useFocusEffect(
-  //     React.useCallback(() => {
-  //       scrollToSection(
-  //         catsArray
-  //           .reduce((acc, item) => [item].concat(acc), [])
-  //           .indexOf(props.scrollto),
-  //         0,
-  //       );
-  //     }, [scrollToSection]),
-  //   );
-  // }
-
   return (
     <View
       style={{ height: "100%" }}
-      onLayout={() => {
-        if (props.scrollto) {
-          // Reversing array cos category component uses revesed cat list
-          scrollToSection(
-            catsArray
-              .reduce((acc, item) => [item].concat(acc), [])
-              .indexOf(props.scrollto),
-            0,
-          );
-        }
-      }}
+      // onLayout={() => {
+      //   if (props.scrollto) {
+      //     // Reversing array cos category component uses revesed cat list
+      //     scrollToSection(
+      //       catsArray
+      //         .reduce((acc, item) => [item].concat(acc), [])
+      //         .indexOf(props.scrollto),
+      //       0,
+      //     );
+      //   }
+      // }}
     >
       <Categories cats={catsArray} relatedList={sectionListRef} />
       <SectionList
@@ -152,7 +166,7 @@ const Menu = (props) => {
         // ListHeaderComponent={}
         // stickyHeaderComponent={<Categories cats={catsArray} />}
         // stickyHeaderIndices={[0]}
-        sections={DATA}
+        sections={sections}
         keyExtractor={(item, index) => item.slug + "allprods"}
         renderItem={renderItem}
         onScrollToIndexFailed={onScrollToIndexFailed}

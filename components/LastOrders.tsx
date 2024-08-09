@@ -35,6 +35,13 @@ const LastOrders = (props) => {
 
   const lastOrdersLs = lastOrdersList.data;
 
+  // const seen = new Set();
+  // const uniqueJsonArray = lastOrdersLs.filter((item) => {
+  //   const duplicate = seen.has(item.id);
+  //   seen.add(item.id);
+  //   return !duplicate;
+  // });
+
   // console.log("lastOrdersLs from LastOrders:", lastOrdersLs);
 
   return (
@@ -43,7 +50,12 @@ const LastOrders = (props) => {
         {/*we grab products form last orders*/}
         {lastOrdersLs.map((proditem) => (
           <View
-            key={proditem.id + proditem.parent + "_recent_orders"}
+            key={
+              proditem.id +
+              proditem.parent +
+              proditem.order_date +
+              "_recent_orders"
+            }
             style={{
               marginHorizontal: 6,
               marginVertical: 12,

@@ -33,7 +33,7 @@ const Recommended = (props) => {
   }
 
   const recommended = recProdList.data;
-  console.log("recProdList:", recommended);
+  // console.log("recProdList:", recommended);
 
   // const testImg =
   //   "https://dev.sushik.km.ua/wp-content/uploads/2019/10/DSC_5817-scaled.jpg";

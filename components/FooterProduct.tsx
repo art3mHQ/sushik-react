@@ -47,14 +47,14 @@ export default function footerProduct(props) {
 		const isVars = props.variations.length > 0;
 		console.log("props.variations.length > 0", isVars);
 		console.log("props.selectedSize size", props.selectedSize.size);
-		if (props.variations.length > 0) {
-			console.log("hi from var handl");
+		if (isVars > 0) {
+			console.log("hi from variations handlr");
 			productToAddToCart = props.variations.find(
 				// in premalink thereis diametr value which we can easily obtain
 				(item) => item.permalink.slice(-2) == props.selectedSize.size,
 			);
 		}
-		console.log("var prod from handl", productToAddToCart);
+		console.log("var prod from handlr", productToAddToCart);
 		dispatch(addToCart(productToAddToCart));
 		if (quantityToAdd > 1) {
 			for (let i = 0; i < quantityToAdd - 1; i++) {

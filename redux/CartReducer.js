@@ -19,7 +19,10 @@ export const CartSlice = createSlice({
 			} else {
 				const originalObject = action.payload;
 
-				console.log("originalObject.variation", originalObject.variation);
+				console.log(
+					"originalObject.variation from reducer",
+					originalObject.variation,
+				);
 
 				const filteredObject = {
 					id: originalObject.id,

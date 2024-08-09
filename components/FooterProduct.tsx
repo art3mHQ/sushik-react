@@ -12,6 +12,7 @@ import {
 } from "../redux/CartReducer";
 
 // // import Categories from "../../components/Categories";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // import Menu from "../../components/Menu";
 import { useSelector } from "react-redux";
@@ -21,9 +22,11 @@ import { useDispatch } from "react-redux";
 
 export default function footerProduct(props) {
 	const cart = useSelector((state) => state.cart.cart);
+	const { top, bottom } = useSafeAreaInsets();
 	// const nonce = useSelector((state) => state.cart.nonce);
 	const navigation = useNavigation();
 	// console.log("cart from footerCart", cart);
+	// bottom = 100;
 
 	const dispatch = useDispatch();
 
@@ -67,132 +70,133 @@ export default function footerProduct(props) {
 	}
 
 	return (
-		// <Link replace href="/order">
-		<Pressable
-			// onPress={() => orderHandler()}
-			style={{
-				// flex: 1,
-				flexDirection: "row",
-				// backgroundColor: "#fd5c63",
-				backgroundColor: "#fd5c63",
-				paddingHorizontal: 12,
-				paddingVertical: 0,
-				justifyContent: "space-between",
-				alignItems: "center",
-			}}
-		>
-			<Pressable>
-				<View
-					style={{
-						flexDirection: "row",
-						alignItems: "center",
-						justifyContent: "space-between",
-						marginVertical: 6,
-					}}
-				>
-					<Pressable
+		<View>
+			<Pressable
+				// onPress={() => orderHandler()}
+				style={{
+					// flex: 1,
+					flexDirection: "row",
+					// backgroundColor: "#fd5c63",
+					backgroundColor: "#fd5c63",
+					paddingHorizontal: 12,
+					paddingBottom: bottom,
+					justifyContent: "space-between",
+					alignItems: "center",
+				}}
+			>
+				<Pressable>
+					<View
 						style={{
 							flexDirection: "row",
-							paddingHorizontal: 10,
-							paddingVertical: 5,
 							alignItems: "center",
-							// borderColor: "#BEBEBE",
-							// borderWidth: 0.5,
-							// borderRadius: 8,
+							justifyContent: "space-between",
+							marginVertical: 6,
 						}}
 					>
 						<Pressable
-							onPress={() => {
-								decrement();
+							style={{
+								flexDirection: "row",
+								paddingHorizontal: 10,
+								paddingVertical: 5,
+								alignItems: "center",
+								// borderColor: "#BEBEBE",
+								// borderWidth: 0.5,
+								// borderRadius: 8,
 							}}
 						>
-							<Text
-								style={{
-									fontSize: 25,
-									color: "#F0F8FF",
-									paddingRight: 10,
-									fontWeight: "600",
+							<Pressable
+								onPress={() => {
+									decrement();
 								}}
 							>
-								-
-							</Text>
-						</Pressable>
+								<Text
+									style={{
+										fontSize: 25,
+										color: "#F0F8FF",
+										paddingRight: 10,
+										fontWeight: "600",
+									}}
+								>
+									-
+								</Text>
+							</Pressable>
 
-						<Pressable>
-							<Text
-								style={{
-									fontSize: 21,
-									color: "#F0F8FF",
-									paddingHorizontal: 12,
-									fontWeight: "600",
-								}}
-							>
-								{quantityToAdd}
-							</Text>
-						</Pressable>
+							<Pressable>
+								<Text
+									style={{
+										fontSize: 21,
+										color: "#F0F8FF",
+										paddingHorizontal: 12,
+										fontWeight: "600",
+									}}
+								>
+									{quantityToAdd}
+								</Text>
+							</Pressable>
 
-						<Pressable
-							onPress={() => {
-								increment();
-							}}
-						>
-							<Text
-								style={{
-									fontSize: 23,
-									color: "#F0F8FF",
-									paddingLeft: 10,
-									fontWeight: "600",
+							<Pressable
+								onPress={() => {
+									increment();
 								}}
 							>
-								+
-							</Text>
+								<Text
+									style={{
+										fontSize: 23,
+										color: "#F0F8FF",
+										paddingLeft: 10,
+										fontWeight: "600",
+									}}
+								>
+									+
+								</Text>
+							</Pressable>
 						</Pressable>
-					</Pressable>
+					</View>
+				</Pressable>
+				<Pressable
+					onPress={() => {
+						addToCartHandler();
+					}}
+					style={{
+						flexDirection: "row",
+						alignItems: "center",
+						padding: 8,
+						borderColor: "#BEBEBE",
+						borderWidth: 0.5,
+						borderRadius: 8,
+					}}
+				>
+					<Ionicons name="cart-outline" size={24} color="#F0F8FF" />
+					<Text
+						style={{
+							textAlign: "center",
+							color: "white",
+							fontSize: 19,
+							fontWeight: "500",
+						}}
+					>
+						{" "}
+						додати
+					</Text>
+				</Pressable>
+				<View>
+					<Text
+						style={{
+							textAlign: "center",
+							color: "white",
+							// marginTop: 5,
+							fontSize: 20,
+							fontWeight: "600",
+						}}
+					>
+						{props.variations.length == 0
+							? props.product.prices.price * quantityToAdd
+							: props.selectedPrice * quantityToAdd}{" "}
+						грн.
+					</Text>
 				</View>
 			</Pressable>
-			<Pressable
-				onPress={() => {
-					addToCartHandler();
-				}}
-				style={{
-					flexDirection: "row",
-					alignItems: "center",
-					padding: 8,
-					borderColor: "#BEBEBE",
-					borderWidth: 0.5,
-					borderRadius: 8,
-				}}
-			>
-				<Ionicons name="cart-outline" size={24} color="#F0F8FF" />
-				<Text
-					style={{
-						textAlign: "center",
-						color: "white",
-						fontSize: 19,
-						fontWeight: "500",
-					}}
-				>
-					{" "}
-					додати
-				</Text>
-			</Pressable>
-			<View>
-				<Text
-					style={{
-						textAlign: "center",
-						color: "white",
-						// marginTop: 5,
-						fontSize: 20,
-						fontWeight: "600",
-					}}
-				>
-					{props.variations.length == 0
-						? props.product.prices.price * quantityToAdd
-						: props.selectedPrice * quantityToAdd}{" "}
-					грн.
-				</Text>
-			</View>
-		</Pressable>
+		</View>
 	);
 }
 

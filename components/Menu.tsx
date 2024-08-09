@@ -29,7 +29,7 @@ import { useFocusEffect } from "@react-navigation/native";
 const Menu = (props) => {
   const sectionListRef = useRef(null);
   const sectionId = props.scrollto;
-  console.log("sectionId", sectionId);
+  // console.log("sectionId", sectionId);
   // get list of used categories
   const catsArray = props.cats;
 
@@ -66,7 +66,7 @@ const Menu = (props) => {
       DATAset.sort((a, b) => a.title.localeCompare(b.title));
       DATAset.reverse();
 
-      console.log("DATAset", DATAset);
+      // console.log("DATAset", DATAset);
 
       // Perform any logic or transformation on the sections here
       return DATAset;
@@ -88,10 +88,16 @@ const Menu = (props) => {
       const index = catsArray
         .reduce((acc, item) => [item].concat(acc), [])
         .indexOf(sectionId);
-      sectionListRef.current.scrollToLocation({
-        sectionIndex: index,
-        itemIndex: 0,
-      });
+
+      console.log("index", index);
+      setTimeout(() => {
+        sectionListRef.current.scrollToLocation({
+          sectionIndex: index,
+          itemIndex: 0,
+          viewPosition: 0, // 0 = top, 0.5 = center, 1 = bottom
+          animated: true, // Optional: Enable animation
+        });
+      }, 300);
       // }
     }
   }, [sections, sectionId]);
@@ -130,17 +136,17 @@ const Menu = (props) => {
     });
   };
 
-  const scrollToSection = (sectionIndex, itemIndex) => {
-    if (sectionListRef.current) {
-      sectionListRef.current.scrollToLocation({
-        sectionIndex: sectionIndex,
-        itemIndex: itemIndex,
-        viewPosition: 0, // 0 = top, 0.5 = center, 1 = bottom
-        // viewOffset: 43,
-        animated: true, // Optional: Enable animation
-      });
-    }
-  };
+  // const scrollToSection = (sectionIndex, itemIndex) => {
+  //   if (sectionListRef.current) {
+  //     sectionListRef.current.scrollToLocation({
+  //       sectionIndex: sectionIndex,
+  //       itemIndex: itemIndex,
+  //       viewPosition: 0, // 0 = top, 0.5 = center, 1 = bottom
+  //       // viewOffset: 43,
+  //       animated: true, // Optional: Enable animation
+  //     });
+  //   }
+  // };
 
   console.log("go to the card No", props.scrollto);
 

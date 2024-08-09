@@ -7,7 +7,7 @@ import {
   SafeAreaView,
   StatusBar,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Octicons, Ionicons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
 
@@ -30,42 +30,14 @@ import Noncense from "../../components/Noncense";
 
 import { useSelector } from "react-redux";
 
-// import { useDispatch } from "react-redux";
-// import { savenonce } from "../../redux/CartReducer";
-
-// import { useQuery, useQueries } from "@tanstack/react-query";
-
-// import fethNonce from "../../scripts/fetchNonce";
-// import { View, Text, StyleSheet } from 'react-native';
-
-// import { createDrawerNavigator } from "@react-navigation/drawer";
-// import { NavigationContainer } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function HomeScreen() {
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
     "no default address ...",
   );
-
-  // ------------------------
-  // const dispatch = useDispatch();
-
-  // const wcNonce = useQuery({
-  //   queryKey: ["nonce"],
-  //   queryFn: fethNonce,
-  // });
-
-  // if (wcNonce.isPending) {
-  //   return <Text>wcNonce Loading...</Text>;
-  // }
-
-  // if (wcNonce.isError) {
-  //   return <Text>Error: {error.message}</Text>;
-  // }
-
-  // console.log("wcNonce", wcNonce);
-
-  // const sosi = wcNonce.data;
 
   const navigation = useNavigation();
   // dispatch(savenonce(sosi));
@@ -75,6 +47,24 @@ export default function HomeScreen() {
   console.log("savednonce", savednonce);
 
   const hardcodedUsedCats = [21, 23, 22, 16, 24, 19, 35];
+
+  const getUserData = async () => {
+    try {
+      const savedUserData = await AsyncStorage.getItem("userdata");
+      const currentUserData = JSON.parse(savedUserData);
+      console.log(
+        "------currentUserData--fromStorage!---fromIndex!!!---->",
+        currentUserData,
+      );
+      if (currentUserData.adr) setDisplayCurrentAddress(currentUserData.adr);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUserData();
+  }, []);
 
   // const wcNonce = fethNonce();
 

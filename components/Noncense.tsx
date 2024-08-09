@@ -35,7 +35,7 @@ const Noncense = () => {
 			onLayout={() => {
 				dispatch(saveNonce(nonceOnLoad));
 				dispatch(saveToken(cartTokenOnLoad));
-				console.log("sosiii from onLayout");
+				// console.log("sosiii from onLayout");
 			}}
 		>
 			<Text

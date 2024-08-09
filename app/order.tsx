@@ -7,7 +7,7 @@ import {
 	TextInput,
 	SafeAreaView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 // import { useLocalSearchParams, useRouter } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,6 +38,7 @@ import createGuestOrder from "../scripts/createGuestOrder";
 
 import addProductToCartOnWc from "../scripts/addProductToCartOnWc";
 import createOrder from "../scripts/createOrder";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Order = () => {
 	const [tabIndex, setTabIndex] = useState(0);
@@ -78,6 +79,53 @@ const Order = () => {
 		},
 	];
 
+	// console.log("wooowwowowowowwowaweeeewa");
+	// Saving user data to persistent storage
+	const getUserData = async () => {
+		try {
+			const savedUserData = await AsyncStorage.getItem("userdata");
+			const currentUserData = JSON.parse(savedUserData);
+			console.log(
+				"------currentUserData--fromStorage!-------",
+				currentUserData,
+			);
+			console.log(
+				"------currentUserData--fromStorage!--name-----",
+				currentUserData.name,
+			);
+			if (currentUserData.name)
+				setUserName({
+					...userName,
+					value: currentUserData.name,
+				});
+			if (currentUserData.tel)
+				setTel({
+					...tel,
+					value: currentUserData.tel,
+				});
+			if (currentUserData.adr)
+				setDelAdr({
+					...delAdr,
+					value: currentUserData.adr,
+				});
+			console.log("name name name", userName);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	useEffect(() => {
+		getUserData();
+	}, []);
+
+	// storing data
+	const storeUserData = async (userValues) => {
+		try {
+			await AsyncStorage.setItem("userdata", JSON.stringify(userValues));
+		} catch (error) {
+			console.log(error);
+		}
+	};
 	// let cartSortly = cart.map((item) => ({
 	// 	id: item.id,
 	// 	quantity: item.quantity,
@@ -144,6 +192,18 @@ const Order = () => {
 
 			return;
 		}
+
+		// preparing data
+		const userValues = {
+			name: userName.value,
+			tel: tel.value,
+			adr: delAdr.value,
+		};
+
+		console.log("userValues", userValues);
+
+		// storing data
+		storeUserData(userValues);
 
 		navigation.navigate("greatsuccess", {
 			delAdr: adrToSend,

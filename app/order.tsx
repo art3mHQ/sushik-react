@@ -532,7 +532,7 @@ const Order = () => {
 								/>
 							</View>*/}
 							<View style={styles.section}>
-								<Text style={styles.paragraph}>
+								<Text style={styles.paragraph} onPress={setChecked}>
 									Сплатити онлайн(apple-pay,g-pay,карта)
 								</Text>
 								<Checkbox

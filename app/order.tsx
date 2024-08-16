@@ -31,14 +31,16 @@ import { useNavigation } from "@react-navigation/native";
 
 import { Tab, TabView } from "@rneui/themed";
 
-import { useQuery } from "@tanstack/react-query";
+// import { useQuery } from "@tanstack/react-query";
 
 // import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
-import createGuestOrder from "../scripts/createGuestOrder";
+// import createGuestOrder from "../scripts/createGuestOrder";
 
-import addProductToCartOnWc from "../scripts/addProductToCartOnWc";
-import createOrder from "../scripts/createOrder";
+// import addProductToCartOnWc from "../scripts/addProductToCartOnWc";
+// import createOrder from "../scripts/createOrder";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import Checkbox from "expo-checkbox";
 
 const Order = () => {
 	const [tabIndex, setTabIndex] = useState(0);
@@ -59,28 +61,30 @@ const Order = () => {
 	const [comment, setComment] = useState("");
 	const [userName, setUserName] = useState({ value: "", isValid: true });
 
+	const [isChecked, setChecked] = useState(false);
+
 	const dispatch = useDispatch();
 
-	const instructions = [
-		{
-			id: "0",
-			name: "Не дзвонити до двері",
-			iconName: "bell",
-		},
-		{
-			id: "1",
-			name: "Залишити на респшенi",
-			iconName: "door-open",
-		},
-		{
-			id: "3",
-			name: "Не телефонувати",
-			iconName: "phone-alt",
-		},
-	];
+	// const instructions = [
+	// 	{
+	// 		id: "0",
+	// 		name: "Не дзвонити до двері",
+	// 		iconName: "bell",
+	// 	},
+	// 	{
+	// 		id: "1",
+	// 		name: "Залишити на респшенi",
+	// 		iconName: "door-open",
+	// 	},
+	// 	{
+	// 		id: "3",
+	// 		name: "Не телефонувати",
+	// 		iconName: "phone-alt",
+	// 	},
+	// ];
 
 	// console.log("wooowwowowowowwowaweeeewa");
-	// Saving user data to persistent storage
+	// Saving and retriving user data to persistent storage
 	const getUserData = async () => {
 		try {
 			const savedUserData = await AsyncStorage.getItem("userdata");
@@ -154,19 +158,6 @@ const Order = () => {
 	// let userNameIsThere = true;
 
 	const anotherOrderHandler = () => {
-		// setDelAdr("-fuck u fuc u fuk u-");
-
-		// console.log("DelAdr", delAdr);
-		// if (tabIndex) {
-		// 	setDelAdr("-САМОВИВЕЗЕННЯ-");
-		// 	console.log("delAdr", delAdr);
-		// }
-		// console.log("tabIndex", tabIndex);
-		// console.log("hihihihihihi");
-		// dispatch(saveNonce(wcCartData.data.nonce));
-		// console.log("hahahhaahahaha");
-		// dispatch(saveToken(wcCartData.data.cartToken));
-		// dispatch(emptyCart());
 		const adrToSend = tabIndex ? "-САМОВИВЕЗЕННЯ-" : delAdr.value;
 
 		let addressIsThere = adrToSend.length > 0;
@@ -211,6 +202,7 @@ const Order = () => {
 			time: time,
 			comment: comment,
 			userName: userName.value,
+			payOnline: isChecked,
 		});
 
 		// let formInvalid;
@@ -241,8 +233,8 @@ const Order = () => {
 					}}
 				>
 					<Text>
-						Доставка за{" "}
-						<Text style={{ fontWeight: "500" }}>35 - 40 хвилин</Text>
+						Доставка протягом <Text style={{ fontWeight: "500" }}>60-90</Text>{" "}
+						хвилин
 					</Text>
 				</View>
 
@@ -270,10 +262,6 @@ const Order = () => {
 							>
 								<Tab.Item
 									title={
-										// это чуть чуть не правильно (когда сумма больше
-										// 500 и выбран самовывоз кнопка показывает 80)
-										// воркэраунд сделать это оповещение не на кнопке
-										// а внутри таба например (это будут 2 разных места)
 										deliveryFee
 											? "Доставка кур'єром (80 грн)"
 											: "Доставка (безкоштовно)"
@@ -366,7 +354,7 @@ const Order = () => {
 						{/*end of tabview !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-----------------*/}
 					</View>
 
-					<View style={{ marginVertical: 10, marginTop: 325 }}>
+					{/*<View style={{ marginVertical: 10, marginTop: 325 }}>
 						<Text style={{ fontSize: 16, fontWeight: "600" }}>
 							Інструкції з доставки
 						</Text>
@@ -404,8 +392,8 @@ const Order = () => {
 								</Pressable>
 							))}
 						</ScrollView>
-					</View>
-					<View>
+					</View>*/}
+					{/*<View>
 						<View
 							style={{
 								padding: 10,
@@ -437,9 +425,9 @@ const Order = () => {
 								<Text>₴ 3</Text>
 							</View>
 						</View>
-					</View>
+					</View>*/}
 
-					<View style={{ marginVertical: 10 }}>
+					<View style={{ marginVertical: 10, marginTop: 325 }}>
 						<Text style={{ fontSize: 16, fontWeight: "bold" }}>
 							Billing Details
 						</Text>
@@ -529,20 +517,30 @@ const Order = () => {
 								marginVertical: 8,
 							}}
 						>
-							<View
+							{/*<View
 								style={{
 									flexDirection: "row",
 									alignItems: "center",
 									justifyContent: "space-between",
 								}}
 							>
-								<Text>Сплатити онлайн(qr,apple-pay,g-pay,карта)</Text>
+								<Text>Сплатити онлайн(apple-pay,g-pay,карта)</Text>
 								<MaterialIcons
 									name="check-box-outline-blank"
 									size={24}
 									color="#fd5c63"
 								/>
-								{/*<AntDesign name="checksquare" size={24} color="#fd5c63" />*/}
+							</View>*/}
+							<View style={styles.section}>
+								<Text style={styles.paragraph}>
+									Сплатити онлайн(apple-pay,g-pay,карта)
+								</Text>
+								<Checkbox
+									style={styles.checkbox}
+									value={isChecked}
+									onValueChange={setChecked}
+									color={isChecked ? "#fd5c63" : undefined}
+								/>
 							</View>
 						</View>
 					</View>
@@ -631,5 +629,16 @@ const styles = StyleSheet.create({
 	safecontainer: {
 		flex: 1,
 		// paddingTop: StatusBar.currentHeight,
+	},
+	section: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
+	},
+	paragraph: {
+		fontSize: 15,
+	},
+	checkbox: {
+		margin: 6,
 	},
 });

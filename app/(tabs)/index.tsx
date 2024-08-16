@@ -99,7 +99,9 @@ export default function HomeScreen() {
 
           <Octicons name="location" size={24} color="#E52850" />
           <View style={{ flex: 1 }}>
-            <Text style={{ fontSize: 15, fontWeight: "500" }}>Delivery To</Text>
+            <Text style={{ fontSize: 15, fontWeight: "500" }}>
+              Адреса для доставки
+            </Text>
             <Text style={{ color: "gray", fontSize: 16, marginTop: 3 }}>
               {displayCurrentAddress}
             </Text>

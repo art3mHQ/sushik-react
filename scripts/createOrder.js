@@ -7,10 +7,12 @@ const createOrder = async (
 	time,
 	comment,
 	userName,
+	payOnline,
 ) => {
 	// console.log("createOrder!-nonce-!!!!", `${nonce}`);
 	// console.log("createOrder!-cartToken-!!!!", `${cartToken}`);
 	console.log("createOrder!----cartSortly", `${cartSortly}`);
+	console.log("createOrder!----payOnline", `${payOnline}`);
 
 	const productsData = cartSortly.map((item) => ({
 		path: "/wc/store/v1/cart/add-item",
@@ -51,7 +53,7 @@ const createOrder = async (
 				email: "guest@GUEST.com",
 				phone: tel,
 			},
-			payment_method: "cod",
+			payment_method: payOnline ? "liqpay" : "cod",
 			set_paid: false,
 			customer_note: "Комментар: " + comment + "\n" + " Час:" + "&nbsp;" + time,
 		},

@@ -39,7 +39,7 @@ const GreatSuccess = () => {
 	const route = useRoute();
 	const dispatch = useDispatch();
 
-	const { delAdr, tel, time, comment, userName } = route.params;
+	const { delAdr, tel, time, comment, userName, payOnline } = route.params;
 	// const params = route?.params ?? {};
 
 	console.log(delAdr);
@@ -90,6 +90,7 @@ const GreatSuccess = () => {
 				time,
 				comment,
 				userName,
+				payOnline,
 			),
 		staleTime: 1 * 1000,
 	});
@@ -103,7 +104,7 @@ const GreatSuccess = () => {
 	}
 
 	if (newOrderData.isError) {
-		return <Text>Error: {error.message}</Text>;
+		return <Text>Error: {Error.message}</Text>;
 	}
 
 	let replay = newOrderData.data.result.responses;

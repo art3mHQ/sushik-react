@@ -157,6 +157,10 @@ const Order = () => {
 	// let telIsValid = true;
 	// let userNameIsThere = true;
 
+	function handleOnLinePaymentClickOnLetters() {
+		setChecked((a) => !a); // inverse please
+	}
+
 	const anotherOrderHandler = () => {
 		const adrToSend = tabIndex ? "-САМОВИВЕЗЕННЯ-" : delAdr.value;
 
@@ -532,7 +536,10 @@ const Order = () => {
 								/>
 							</View>*/}
 							<View style={styles.section}>
-								<Text style={styles.paragraph} onPress={setChecked}>
+								<Text
+									style={styles.paragraph}
+									onPress={handleOnLinePaymentClickOnLetters}
+								>
 									Сплатити онлайн(apple-pay,g-pay,карта)
 								</Text>
 								<Checkbox

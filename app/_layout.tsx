@@ -66,16 +66,16 @@ export default function RootLayout() {
             />
             <Stack.Screen
               name="liqpayScreen"
-              options={{
-                // presentation: "modal",
-                headerShown: false,
-              }}
+              // options={{
+              //   // presentation: "modal",
+              //   headerShown: false,
+              // }}
             />
             <Stack.Screen
               name="paymentResult"
-              options={{
-                headerShown: false,
-              }}
+              // options={{
+              //   headerShown: false,
+              // }}
             />
           </Stack>
         </ThemeProvider>

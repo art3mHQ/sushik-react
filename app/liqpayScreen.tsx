@@ -1,5 +1,12 @@
 import React, { useRef } from "react";
-import { View, Text, StyleSheet, StatusBar, SafeAreaView } from "react-native";
+import {
+	View,
+	Text,
+	StyleSheet,
+	StatusBar,
+	SafeAreaView,
+	ActivityIndicator,
+} from "react-native";
 
 import { WebView } from "react-native-webview";
 
@@ -96,6 +103,9 @@ const liqpayScreen = () => {
 			navigation.navigate("paymentResult", { paymentStatus: "success" });
 		}
 	}
+	const renderLoading = () => {
+		return <ActivityIndicator />;
+	};
 
 	return (
 		<SafeAreaView style={styles.safecontainer}>
@@ -115,10 +125,12 @@ const liqpayScreen = () => {
 				// 	}
 				// }}
 				enableApplePay={true}
-				automaticallyAdjustContentInsets={false}
-				useWebKit={true}
+				// automaticallyAdjustContentInsets={false}
+				// useWebKit={true}
 				ref={ref}
 				source={{ uri: payurl }}
+				renderLoading={renderLoading}
+				startInLoadingState
 			/>
 		</SafeAreaView>
 	);

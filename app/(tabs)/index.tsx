@@ -75,15 +75,15 @@ export default function HomeScreen() {
     getUserData();
   }, []);
 
-  useEffect(() => {
-    const removeNetInfoSubscription = NetInfo.addEventListener((state) => {
-      const conn = state.isConnected; //boolean value whether internet connected or not
-      console.log("Connection type", state.type); //gives the connection type
-      !conn ? alert("No Internet Connection!") : null; //alert if internet not connected
-    });
+  // useEffect(() => {
+  //   const removeNetInfoSubscription = NetInfo.addEventListener((state) => {
+  //     const conn = state.isConnected; //boolean value whether internet connected or not
+  //     console.log("Connection type", state.type); //gives the connection type
+  //     !conn ? alert("No Internet Connection!") : null; //alert if internet not connected
+  //   });
 
-    return () => removeNetInfoSubscription();
-  });
+  //   return () => removeNetInfoSubscription();
+  // });
 
   // const wcNonce = fethNonce();
 

@@ -11,6 +11,8 @@ import React, { useState, useEffect } from "react";
 import { Octicons, Ionicons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
 
+import NetInfo from "@react-native-community/netinfo";
+
 // import { HelloWave } from "@/components/HelloWave";
 // import ParallaxScrollView from "@/components/ParallaxScrollView";
 // import { ThemedText } from "@/components/ThemedText";
@@ -72,6 +74,16 @@ export default function HomeScreen() {
   useEffect(() => {
     getUserData();
   }, []);
+
+  useEffect(() => {
+    const removeNetInfoSubscription = NetInfo.addEventListener((state) => {
+      const conn = state.isConnected; //boolean value whether internet connected or not
+      console.log("Connection type", state.type); //gives the connection type
+      !conn ? alert("No Internet Connection!") : null; //alert if internet not connected
+    });
+
+    return () => removeNetInfoSubscription();
+  });
 
   // const wcNonce = fethNonce();
 

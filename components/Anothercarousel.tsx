@@ -1,6 +1,6 @@
-// import { Image } from "expo-image";
+import { Image } from "expo-image";
 import {
-	Image,
+	// Image,
 	FlatList,
 	StyleSheet,
 	Text,
@@ -42,25 +42,63 @@ const Carousel = () => {
 		index: index,
 	});
 	// Data for carousel
+	// const carouselDataOld = [
+	// 	{
+	// 		id: "01",
+	// 		image: require("../assets/images/2.file-lososweb-650x240.jpg"),
+	// 		blurhash: "LQOnN^39E3}?D.IrEOR7R+n~R%RQ",
+	// 	},
+	// 	{
+	// 		id: "02",
+	// 		image: require("../assets/images/carousel1.jpeg"),
+	// 		blurhash: "LcI;0HMz%3p0~9V?WrS7njskogRk",
+	// 	},
+	// 	{
+	// 		id: "03",
+	// 		image: require("../assets/images/carousel2.jpeg"),
+	// 		blurhash: "LTJs,@s9}r%2ofn4X8WqFeWBxbax",
+	// 	},
+	// 	{
+	// 		id: "04",
+	// 		image: require("../assets/images/carousel3.jpeg"),
+	// 		blurhash: "L6EyPfXV009E00Io}hjK9uWBN2%L",
+	// 	},
+	// ];
+
 	const carouselData = [
 		{
 			id: "01",
-			image: require("../assets/images/2.file-lososweb-650x240.jpg"),
+			image: require("../assets/images/carousel/carousel5-ny.jpeg"),
 			blurhash: "LQOnN^39E3}?D.IrEOR7R+n~R%RQ",
 		},
 		{
 			id: "02",
-			image: require("../assets/images/carousel1.jpeg"),
+			image: require("../assets/images/carousel/dennarodjenya1920x575.jpeg"),
 			blurhash: "LcI;0HMz%3p0~9V?WrS7njskogRk",
 		},
 		{
 			id: "03",
-			image: require("../assets/images/carousel2.jpeg"),
+			image: require("../assets/images/carousel/olviya_252-1920x575.jpeg"),
 			blurhash: "LTJs,@s9}r%2ofn4X8WqFeWBxbax",
 		},
 		{
 			id: "04",
-			image: require("../assets/images/carousel3.jpeg"),
+			image: require("../assets/images/carousel/rys-zi-svyn-105grn-1920x575.jpeg"),
+			blurhash: "L6EyPfXV009E00Io}hjK9uWBN2%L",
+		},
+		{
+			id: "05",
+			image: require("../assets/images/carousel/set-czusima-499-scaled.jpeg"),
+			blurhash: "L6EyPfXV009E00Io}hjK9uWBN2%L",
+		},
+		{
+			id: "06",
+			image: require("../assets/images/carousel/set-kombo-1299-1920x575.jpeg"),
+			blurhash: "L6EyPfXV009E00Io}hjK9uWBN2%L",
+		},
+		{
+			id: "07",
+			image: require("../assets/images/carousel/set-sakura-439-scaled.jpeg"),
 			blurhash: "L6EyPfXV009E00Io}hjK9uWBN2%L",
 		},
 	];
@@ -74,12 +112,12 @@ const Carousel = () => {
 				<Image
 					source={item.image}
 					style={{
-						height: 200,
+						height: 116,
 						width: screenWidth - 16,
 						borderRadius: 8,
 						marginHorizontal: 8,
 					}}
-					// placeholder={item.blurhash}
+					placeholder={{ blurhash: item.blurhash }}
 				/>
 			</View>
 		);
@@ -123,7 +161,7 @@ const Carousel = () => {
 					<View
 						key={index}
 						style={{
-							backgroundColor: "red",
+							backgroundColor: "#ff3434",
 							height: 10,
 							width: 10,
 							borderRadius: 5,

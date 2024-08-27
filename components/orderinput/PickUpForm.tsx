@@ -1,7 +1,16 @@
 import { PatternFormat, NumericFormat } from "react-number-format";
 import React, { useState } from "react";
 
-import { Text, View, StyleSheet, TextInput } from "react-native";
+import {
+	Text,
+	View,
+	StyleSheet,
+	InputAccessoryView,
+	Keyboard,
+	Platform,
+	Dimensions,
+	Button,
+} from "react-native";
 
 import Input from "./Input";
 
@@ -35,6 +44,7 @@ function PickUpForm(props) {
 							value: text,
 							isValid: true,
 						}),
+					inputAccessoryViewID: "Done",
 				}}
 				invalid={!props.userName.isValid}
 			/>
@@ -47,6 +57,7 @@ function PickUpForm(props) {
 					maxLength: 14,
 					value: props.tel.value,
 					onChangeText: (text) => handleTelChange(text),
+					inputAccessoryViewID: "Done",
 				}}
 				invalid={!props.tel.isValid}
 			/>
@@ -64,6 +75,7 @@ function PickUpForm(props) {
 					keyboardType: "decimal-pad",
 					value: props.time,
 					onChangeText: (text) => props.setTime(text),
+					inputAccessoryViewID: "Done",
 				}}
 				// additionContStyle={{ flex: 1 }}
 			/>
@@ -75,10 +87,31 @@ function PickUpForm(props) {
 					// autoCorrect: false // default is true
 					value: props.comment,
 					onChangeText: (text) => props.setComment(text),
+					inputAccessoryViewID: "Done",
 				}}
 			/>
+			{Platform.OS !== "web" && (
+				<InputAccessoryView nativeID="Done">
+					<View style={styles.accessory}>
+						{/*<Text>You could have different sets of buttons -> </Text>*/}
+						<Button onPress={() => Keyboard.dismiss()} title="Done" />
+					</View>
+				</InputAccessoryView>
+			)}
 		</View>
 	);
 }
 
 export default PickUpForm;
+
+const styles = StyleSheet.create({
+	accessory: {
+		width: Dimensions.get("window").width,
+		height: 36,
+		flexDirection: "row",
+		justifyContent: "flex-end",
+		alignItems: "center",
+		backgroundColor: "#F8F8F8",
+		paddingHorizontal: 8,
+	},
+});

@@ -64,6 +64,19 @@ export default function RootLayout() {
                 headerShown: false,
               }}
             />
+            <Stack.Screen
+              name="liqpayScreen"
+              options={{
+                // presentation: "modal",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="paymentResult"
+              options={{
+                headerShown: false,
+              }}
+            />
           </Stack>
         </ThemeProvider>
       </QueryClientProvider>

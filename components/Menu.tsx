@@ -26,12 +26,16 @@ import sectionListGetItemLayout from "react-native-section-list-get-item-layout"
 
 import { useFocusEffect } from "@react-navigation/native";
 
-const Menu = (props) => {
+const Menu = ({ scrollto, cats }) => {
   const sectionListRef = useRef(null);
-  const sectionId = props.scrollto;
-  // console.log("sectionId", sectionId);
+  // const scrollto = props.scrollto;
+  // console.log("scrollto", scrollto);
   // get list of used categories
-  const catsArray = props.cats;
+  const catsArray = cats;
+
+  if (scrollto.constructor === Object) {
+    let scrollto = 0;
+  }
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["products"],
@@ -75,19 +79,28 @@ const Menu = (props) => {
   }, [data]);
 
   console.log("sections.length", sections.length);
+  console.log("scrollto", scrollto);
+  console.log("Object.keys scrollto.length", Object.keys(scrollto).length);
 
   useEffect(() => {
-    if (sections.length > 0 && sectionId && sectionListRef.current) {
+    // this scrollto &&s crollto.constructor != Object check is needed cos we do not need scroll
+    // on top after each rerender so if scrollto not passed from parent component
+    if (
+      sections.length > 0 &&
+      scrollto &&
+      scrollto.constructor != Object &&
+      sectionListRef.current
+    ) {
       // console.log("sections from useEffect", sections);
       // const index = sections.findIndex(
-      //   (section) => section.title === sectionId,
+      //   (section) => section.title === scrollto,
       // );
       // console.log("index from useEffect", index);
-      // console.log("sectionId from useEffect", sectionId);
+      // console.log("scrollto from useEffect", scrollto);
       // if (index !== -1) {
       const index = catsArray
         .reduce((acc, item) => [item].concat(acc), [])
-        .indexOf(sectionId);
+        .indexOf(scrollto);
 
       console.log("index", index);
       setTimeout(() => {
@@ -100,7 +113,7 @@ const Menu = (props) => {
       }, 300);
       // }
     }
-  }, [sections, sectionId]);
+  }, [sections, scrollto]);
 
   if (isLoading) {
     return <ActivityIndicator style={styles.safecontainer} />;
@@ -148,7 +161,7 @@ const Menu = (props) => {
   //   }
   // };
 
-  console.log("go to the card No", props.scrollto);
+  console.log("go to the card No", scrollto);
 
   return (
     <View

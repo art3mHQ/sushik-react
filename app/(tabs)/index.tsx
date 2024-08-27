@@ -34,6 +34,8 @@ import { useNavigation } from "@react-navigation/native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import FooterCart from "../../components/FooterCart";
+
 export default function HomeScreen() {
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
     "no default address ...",
@@ -62,6 +64,11 @@ export default function HomeScreen() {
     }
   };
 
+  const cart = useSelector((state) => state.cart.cart);
+  // console.log("cart", cart);
+  // const savednonce = useSelector((state) => state.cart.nonce);
+  // console.log("savednonce", savednonce);
+
   useEffect(() => {
     getUserData();
   }, []);
@@ -85,17 +92,19 @@ export default function HomeScreen() {
             padding: 10,
           }}
         >
-          <Ionicons
-            style={{
-              paddingRight: 10,
-              paddingLeft: 8,
-            }}
-            name="menu"
-            size={26}
-            color="black"
-            onPress={() => navigation.openDrawer()}
-            title="Go to Drawer"
-          />
+          <Pressable style={({ pressed }) => [pressed && styles.pressed]}>
+            <Ionicons
+              style={{
+                paddingRight: 10,
+                paddingLeft: 8,
+              }}
+              name="menu"
+              size={26}
+              color="black"
+              onPress={() => navigation.openDrawer()}
+              title="Go to Drawer"
+            />
+          </Pressable>
 
           <Octicons name="location" size={24} color="#E52850" />
           <View style={{ flex: 1 }}>
@@ -108,7 +117,7 @@ export default function HomeScreen() {
           </View>
           <Pressable
             style={{
-              backgroundColor: "#6CB4EE",
+              backgroundColor: "#ff6666",
               width: 40,
               height: 40,
               borderRadius: 20,
@@ -117,24 +126,20 @@ export default function HomeScreen() {
             }}
           >
             {/*<Text>S</Text>*/}
-            <SimpleLineIcons name="user-follow" size={20} color="black" />
+            <SimpleLineIcons name="fire" size={20} color="black" />
           </Pressable>
         </View>
         {/*<Carousel />*/}
         <Anothercarousel />
-        <Text
-          style={{
-            textAlign: "center",
-            marginTop: 24,
-            letterSpacing: 4,
-            marginBottom: 6,
-            color: "gray",
-          }}
-          onPress={() => navigation.navigate("foodmenu")}
-          title="Go to food menu"
-        >
-          MENU
-        </Text>
+        <Pressable style={({ pressed }) => [pressed && styles.pressed]}>
+          <Text
+            style={styles.menuWord}
+            onPress={() => navigation.navigate("foodmenu")}
+            title="Go to food menu"
+          >
+            MENU
+          </Text>
+        </Pressable>
 
         {/*<QueryClientProvider client={queryClient}>*/}
         <Categories cats={hardcodedUsedCats} />
@@ -188,6 +193,8 @@ export default function HomeScreen() {
         </View>
         {/*</QueryClientProvider>*/}
       </ScrollView>
+
+      {cart?.length > 0 && <FooterCart />}
     </SafeAreaView>
   );
 }
@@ -220,5 +227,15 @@ const styles = StyleSheet.create({
   },
   numberText: {
     color: "pink",
+  },
+  menuWord: {
+    textAlign: "center",
+    marginTop: 24,
+    letterSpacing: 4,
+    marginBottom: 6,
+    color: "gray",
+  },
+  pressed: {
+    opacity: 0.65,
   },
 });

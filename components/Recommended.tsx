@@ -52,13 +52,11 @@ const Recommended = (props) => {
       {recommended?.map((item, index) => (
         <Pressable
           key={"item_recommended" + index}
-          style={{
-            backgroundColor: "white",
-            flexDirection: "row",
-            margin: 10,
-            borderRadius: 8,
-            maxWidth: 340,
-          }}
+          // style={styles.mainItemStyle}
+          style={({ pressed }) => [
+            styles.mainItemStyle,
+            pressed && styles.pressed,
+          ]}
           onPress={() =>
             props.nav.navigate("singleProductScreen", {
               product: item,
@@ -128,5 +126,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     backgroundColor: "#fff",
     padding: 8,
+  },
+  mainItemStyle: {
+    backgroundColor: "white",
+    flexDirection: "row",
+    margin: 10,
+    borderRadius: 8,
+    maxWidth: 340,
+  },
+  pressed: {
+    opacity: 0.65,
   },
 });

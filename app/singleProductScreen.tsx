@@ -50,7 +50,7 @@ const singleProduct = () => {
 	if (product.variations.length > 0) {
 		// const sizes = ["S", "M", "XL"];
 
-		console.log("helo from IF");
+		// console.log("helo from IF");
 		const variationsIds = product.variations.map(
 			// this workaround is for dial with 2 kind of product prop - one from last_order_list
 			// and second from normal store api all_products fetch
@@ -162,9 +162,9 @@ const singleProduct = () => {
 									styles.size,
 									{
 										backgroundColor:
-											selectedSize.size === size ? "#fd5c63" : "white",
+											selectedSize.size === size ? "lightgreen" : "white",
 										borderColor:
-											selectedSize.size === size ? "#009900" : "white",
+											selectedSize.size === size ? "#ffcdcd" : "white",
 										borderWidth: selectedSize.size === size ? 1 : 0,
 									},
 								]}
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "#3CB371",
 		width: 36,
 		aspectRatio: 1,
-		borderRadius: 18,
+		borderRadius: 10,
 		alignItems: "center",
 		justifyContent: "center",
 	},

@@ -514,12 +514,13 @@ const Order = () => {
 						</View>
 					</View>
 					<View>
-						<View
+						<Pressable
 							style={{
 								padding: 10,
 								backgroundColor: "white",
 								marginVertical: 8,
 							}}
+							onPress={handleOnLinePaymentClickOnLetters}
 						>
 							{/*<View
 								style={{
@@ -536,20 +537,17 @@ const Order = () => {
 								/>
 							</View>*/}
 							<View style={styles.section}>
-								<Text
-									style={styles.paragraph}
-									onPress={handleOnLinePaymentClickOnLetters}
-								>
-									Сплатити онлайн(apple-pay,g-pay,карта)
+								<Text style={styles.paragraph}>
+									Сплатити онлайн (apple-pay,g-pay,карта)
 								</Text>
 								<Checkbox
 									style={styles.checkbox}
 									value={isChecked}
 									onValueChange={setChecked}
-									color={isChecked ? "#fd5c63" : undefined}
+									color={isChecked ? "#ff6666" : undefined}
 								/>
 							</View>
-						</View>
+						</Pressable>
 					</View>
 				</View>
 			</ScrollView>
@@ -566,12 +564,20 @@ const Order = () => {
 					}}
 				>
 					<View>
-						<Text style={{ fontSize: 16, fontWeight: "600" }}>
-							Оплата готівкою
-						</Text>
-						<Text style={{ marginTop: 7, fontSize: 14 }}>
-							кур'єру при отриманні
-						</Text>
+						{isChecked ? (
+							<Text style={{ fontSize: 16, fontWeight: "600" }}>
+								Оплата on-line
+							</Text>
+						) : (
+							<View>
+								<Text style={{ fontSize: 16, fontWeight: "600" }}>
+									Оплата готівкою
+								</Text>
+								<Text style={{ marginTop: 7, fontSize: 14 }}>
+									кур'єру при отриманні
+								</Text>
+							</View>
+						)}
 					</View>
 
 					<Pressable
@@ -585,16 +591,11 @@ const Order = () => {
 							anotherOrderHandler();
 							// dispatch(emptyCart());
 						}}
-						style={{
-							backgroundColor: "#fd5c63",
-							padding: 10,
-							width: 180,
-							borderRadius: 6,
-							flexDirection: "row",
-							alignItems: "center",
-							justifyContent: "space-between",
-							gap: 10,
-						}}
+						// style={styles.buttonStyle}
+						style={({ pressed }) => [
+							styles.buttonStyle,
+							pressed && styles.pressed,
+						]}
 					>
 						<Text style={{ fontSize: 16, fontWeight: "500", color: "white" }}>
 							Замовити
@@ -647,5 +648,19 @@ const styles = StyleSheet.create({
 	},
 	checkbox: {
 		margin: 6,
+	},
+	pressed: {
+		// opacity: 0.75,
+		backgroundColor: "#ff8080",
+	},
+	buttonStyle: {
+		backgroundColor: "#ff6666",
+		padding: 10,
+		width: 180,
+		borderRadius: 6,
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
+		gap: 10,
 	},
 });

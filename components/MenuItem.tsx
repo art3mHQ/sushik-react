@@ -108,7 +108,7 @@ const MenuItem = (props) => {
 								position: "absolute",
 								top: 76,
 								left: 6,
-								backgroundColor: "#fd5c63",
+								backgroundColor: "#ff6666",
 								flexDirection: "row",
 								paddingHorizontal: 10,
 								// paddingVertical: 4,
@@ -181,19 +181,11 @@ const MenuItem = (props) => {
 									dispatch(addToCart(item));
 								}
 							}}
-							style={{
-								position: "absolute",
-								top: 76,
-								left: 6,
-								borderColor: "#E32636",
-								borderWidth: 1,
-								flexDirection: "row",
-								paddingHorizontal: 9,
-								paddingVertical: 4,
-								alignItems: "center",
-								backgroundColor: "white",
-								borderRadius: 3,
-							}}
+							// style={styles.dodati}
+							style={({ pressed }) => [
+								styles.dodati,
+								pressed && styles.pressedDodati,
+							]}
 						>
 							<Ionicons name="cart-outline" size={16} color="#E32636" />
 							<Text style={{ fontSize: 13, fontWeight: "500", color: "green" }}>
@@ -211,12 +203,29 @@ export default memo(MenuItem);
 
 const styles = StyleSheet.create({
 	pressed: {
-		opacity: 0.75,
+		opacity: 0.65,
 	},
 	cardStyle: {
 		margin: 10,
 		flexDirection: "row",
 		justifyContent: "space-between",
 		marginVertical: 9,
+	},
+	dodati: {
+		position: "absolute",
+		top: 76,
+		left: 6,
+		borderColor: "#E32636",
+		borderWidth: 1,
+		flexDirection: "row",
+		paddingHorizontal: 9,
+		paddingVertical: 4,
+		alignItems: "center",
+		backgroundColor: "white",
+		borderRadius: 3,
+	},
+	pressedDodati: {
+		backgroundColor: "lightgray",
+		opacity: 0.95,
 	},
 });

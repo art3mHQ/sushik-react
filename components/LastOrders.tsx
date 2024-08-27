@@ -104,16 +104,11 @@ const LastOrders = (props) => {
                 </Text>
               </View>
               <Pressable
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  backgroundColor: "#E52850",
-                  borderRadius: 4,
-                  paddingHorizontal: 6,
-                  paddingVertical: 7,
-                  marginRight: 10,
-                  gap: 3,
-                }}
+                // style={styles.buttonStyle}
+                style={({ pressed }) => [
+                  styles.buttonStyle,
+                  pressed && styles.pressed,
+                ]}
                 onPress={() =>
                   props.nav.navigate("singleProductScreen", {
                     product: proditem,
@@ -141,5 +136,18 @@ const styles = StyleSheet.create({
     height: 200,
     // paddingTop: StatusBar.currentHeight,
     justifyContent: "center",
+  },
+  buttonStyle: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#ff6666",
+    borderRadius: 4,
+    paddingHorizontal: 6,
+    paddingVertical: 7,
+    marginRight: 10,
+    gap: 3,
+  },
+  pressed: {
+    opacity: 0.65,
   },
 });

@@ -32,15 +32,7 @@ export default function footerCart() {
 		<View>
 			<Pressable
 				onPress={() => orderHandler()}
-				style={{
-					// flex: 1,
-					flexDirection: "row",
-					backgroundColor: "#fd5c63",
-					paddingHorizontal: 12,
-					paddingVertical: 12,
-					justifyContent: "space-between",
-					alignItems: "center",
-				}}
+				style={({ pressed }) => [styles.wholeStyle, pressed && styles.pressed]}
 			>
 				{/*{replay ? <Text>{replay}</Text> : null}*/}
 				<View
@@ -88,5 +80,18 @@ const styles = StyleSheet.create({
 	gap: {
 		backgroundColor: "white",
 		// height: bottom,
+	},
+	pressed: {
+		// opacity: 0.75,
+		backgroundColor: "#ff8080",
+	},
+	wholeStyle: {
+		// flex: 1,
+		flexDirection: "row",
+		backgroundColor: "#ff6666",
+		paddingHorizontal: 12,
+		paddingVertical: 12,
+		justifyContent: "space-between",
+		alignItems: "center",
 	},
 });

@@ -77,7 +77,7 @@ export default function footerProduct(props) {
 					// flex: 1,
 					flexDirection: "row",
 					// backgroundColor: "#fd5c63",
-					backgroundColor: "#fd5c63",
+					backgroundColor: "#ff6666",
 					paddingHorizontal: 12,
 					paddingBottom: bottom,
 					justifyContent: "space-between",
@@ -157,14 +157,11 @@ export default function footerProduct(props) {
 					onPress={() => {
 						addToCartHandler();
 					}}
-					style={{
-						flexDirection: "row",
-						alignItems: "center",
-						padding: 8,
-						borderColor: "#BEBEBE",
-						borderWidth: 0.5,
-						borderRadius: 8,
-					}}
+					// style={styles.dodatiStyle}
+					style={({ pressed }) => [
+						styles.dodatiStyle,
+						pressed && styles.pressed,
+					]}
 				>
 					<Ionicons name="cart-outline" size={24} color="#F0F8FF" />
 					<Text
@@ -200,4 +197,16 @@ export default function footerProduct(props) {
 	);
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	pressed: {
+		opacity: 0.65,
+	},
+	dodatiStyle: {
+		flexDirection: "row",
+		alignItems: "center",
+		padding: 8,
+		borderColor: "#BEBEBE",
+		borderWidth: 0.5,
+		borderRadius: 8,
+	},
+});

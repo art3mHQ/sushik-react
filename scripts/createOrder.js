@@ -30,6 +30,7 @@ const createOrder = async (
 		},
 		headers: {
 			Nonce: nonce,
+			"Cart-Token": cartToken,
 		},
 	}));
 
@@ -59,6 +60,7 @@ const createOrder = async (
 		},
 		headers: {
 			Nonce: nonce,
+			"Cart-Token": cartToken,
 		},
 	};
 

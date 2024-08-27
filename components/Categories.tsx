@@ -69,22 +69,9 @@ const Categories = (props) => {
                   })
                 : navigation.navigate("foodmenu", { gotoId: item.id });
             }}
+            style={({ pressed }) => [pressed && styles.pressed]}
           >
-            <View
-              style={{
-                width: 74,
-                borderColor: "#E0E0E0",
-                borderWidth: 1,
-                paddingVertical: 5,
-                paddingHorizontal: 1,
-                borderRadius: 5,
-                marginHorizontal: 4,
-                marginVertical: 8,
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "white",
-              }}
-            >
+            <View style={styles.cardStyle}>
               <Image
                 style={{
                   width: 30,
@@ -113,6 +100,9 @@ const Categories = (props) => {
 export default Categories;
 
 const styles = StyleSheet.create({
+  pressed: {
+    opacity: 0.65,
+  },
   container: {
     marginHorizontal: 6,
   },
@@ -126,5 +116,18 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     backgroundColor: "#fff",
     padding: 8,
+  },
+  cardStyle: {
+    width: 74,
+    borderColor: "#E0E0E0",
+    borderWidth: 1,
+    paddingVertical: 5,
+    paddingHorizontal: 1,
+    borderRadius: 5,
+    marginHorizontal: 4,
+    marginVertical: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
   },
 });

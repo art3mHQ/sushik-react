@@ -13,7 +13,8 @@ import React, { useRef, useState, useEffect } from "react";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
-import { emptyCart } from "../redux/CartReducer";
+// import {  } from "../redux/CartReducer";
+import { saveNonce, saveToken, emptyCart } from "../redux/CartReducer";
 // import DeliveryForm from "../components/orderinput/DeliveryForm";
 // import PickUpForm from "../components/orderinput/PickUpForm";
 // import { Feather } from "@expo/vector-icons";
@@ -37,7 +38,7 @@ import { WebView } from "react-native-webview";
 
 // import addProductToCartOnWc from "../scripts/addProductToCartOnWc";
 import createOrder from "../scripts/createOrder";
-import getQueryParams from "../scripts/getQueryParams";
+// import getQueryParams from "../scripts/getQueryParams";
 
 const GreatSuccess = () => {
 	// let screenLiqpay = (
@@ -94,7 +95,7 @@ const GreatSuccess = () => {
 				userName,
 				payOnline,
 			),
-		staleTime: 1 * 1000,
+		staleTime: 1 * 300,
 	});
 
 	if (newOrderData.isPending) {
@@ -129,10 +130,12 @@ const GreatSuccess = () => {
 	console.log("resultReply", resultReply);
 
 	let replayStatus = resultReply.status;
+	console.log("replayStatus", replayStatus);
+	let paymentMethod = resultReply.body.payment_method;
+	console.log("paymentMethod = liqpay", paymentMethod == "liqpay");
 
 	console.log("payment_method", resultReply.body.payment_method);
 
-	let paymentMethod = resultReply.body.payment_method;
 	let redirectString = resultReply.body.payment_result.payment_details[1].value;
 
 	let orderId = resultReply.body.order_id;
@@ -146,24 +149,45 @@ const GreatSuccess = () => {
 	// console.log("signature:", queryParams.signature);
 	// let webview = null;
 
+	// function emptyTheCart() {
+	// 	console.log("f u");
+	// 	dispatch(emptyCart());
+	// }
+
 	// useEffect(() => {
-	if (paymentMethod == "liqpay") {
+	if (payOnline) {
 		console.log("wowaweewa");
 		setTimeout(() => {
 			navigation.navigate("liqpayScreen", {
 				payurl: redirectString,
 				orderId: orderId,
 				orderKey: orderKey,
+				// emptyTheCart: emptyTheCart,
 			});
-		}, 100);
+		}, 200);
+		dispatch(saveNonce(newOrderData.data.nonce));
+		dispatch(saveToken(newOrderData.data.cartToken));
+		return (
+			<View style={styles.safecontainer}>
+				<ActivityIndicator />
+			</View>
+		);
 	}
 	// }, [paymentMethod]);
+	// if (paymentMethod == "liqpay") {
+
+	// }
 
 	// replayStatus = 300;
 	function emptyTheCartHandler() {
-		if (replayStatus == "200" && paymentMethod != "liqpay") {
+		if (replayStatus == "200" && !payOnline) {
 			console.log("wowaweewa from card emptier");
+
+			dispatch(saveNonce(newOrderData.data.nonce));
+			dispatch(saveToken(newOrderData.data.cartToken));
+			// emptyTheCart();
 			dispatch(emptyCart());
+			return;
 		}
 	}
 
@@ -172,13 +196,6 @@ const GreatSuccess = () => {
 		navigation.navigate("index");
 	}
 
-	if (paymentMethod == "liqpay") {
-		return (
-			<View style={styles.safecontainer}>
-				<ActivityIndicator />
-			</View>
-		);
-	}
 	// ----------------------------------!!!!!!!!!!!!!!!--------------------------------------------
 
 	return (
@@ -205,11 +222,18 @@ const GreatSuccess = () => {
 							onPress={() => submitHandler()}
 						/>
 						{replayStatus == 200 ? (
-							<Text style={styles.replayStyle}>
+							<Text
+								style={styles.replayStyle}
+								onLayout={() => {
+									dispatch(emptyCart());
+								}}
+							>
 								Дякуемо за замовлення ми повинни Вам зателефонувати! ❤️
 							</Text>
 						) : (
-							<Text>Сумно але щось пiйшло не так :,(</Text>
+							<Text style={styles.replayStyle}>
+								Сумно але щось пiйшло не так :,(
+							</Text>
 						)}
 					</View>
 				</View>

@@ -11,13 +11,13 @@ import React, { useState, useEffect } from "react";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 // import { useLocalSearchParams, useRouter } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
-import {
-	emptyCart,
-	decrementQuantity,
-	incrementQuantity,
-	saveNonce,
-	saveToken,
-} from "../redux/CartReducer";
+// import {
+// 	emptyCart,
+// 	decrementQuantity,
+// 	incrementQuantity,
+// 	saveNonce,
+// 	saveToken,
+// } from "../redux/CartReducer";
 import DeliveryForm from "../components/orderinput/DeliveryForm";
 import PickUpForm from "../components/orderinput/PickUpForm";
 import GoodsAdded from "../components/GoodsAdded";
@@ -51,8 +51,8 @@ const Order = () => {
 	// const router = useRouter();
 
 	const cart = useSelector((state) => state.cart.cart);
-	let nonce = useSelector((state) => state.cart.nonce);
-	let cartToken = useSelector((state) => state.cart.cartToken);
+	// let nonce = useSelector((state) => state.cart.nonce);
+	// let cartToken = useSelector((state) => state.cart.cartToken);
 
 	// Handle user address and name and etc...
 	const [delAdr, setDelAdr] = useState({ value: "", isValid: true });
@@ -123,7 +123,7 @@ const Order = () => {
 	}, []);
 
 	// storing data
-	const storeUserData = async (userValues) => {
+	const storeData = async (userValues) => {
 		try {
 			await AsyncStorage.setItem("userdata", JSON.stringify(userValues));
 		} catch (error) {
@@ -198,16 +198,19 @@ const Order = () => {
 		console.log("userValues", userValues);
 
 		// storing data
-		storeUserData(userValues);
+		storeData(userValues);
 
-		navigation.navigate("greatsuccess", {
-			delAdr: adrToSend,
-			tel: tel.value,
-			time: time,
-			comment: comment,
-			userName: userName.value,
-			payOnline: isChecked,
-		});
+		setTimeout(() => {
+			navigation.navigate("greatsuccess", {
+				delAdr: adrToSend,
+				tel: tel.value,
+				time: time,
+				comment: comment,
+				userName: userName.value,
+				payOnline: isChecked,
+			});
+		}, 100);
+		return;
 
 		// let formInvalid;
 	};

@@ -1,3 +1,5 @@
+import { Button } from "react-native";
+
 import {
   DarkTheme,
   DefaultTheme,
@@ -15,6 +17,8 @@ import { Provider } from "react-redux";
 import store from "../redux/store";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+import PaymentResult from "./paymentresult";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -53,10 +57,7 @@ export default function RootLayout() {
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="+not-found" />
             <Stack.Screen name="order" options={{ headerShown: false }} />
-            <Stack.Screen
-              name="greatsuccess"
-              options={{ headerShown: false }}
-            />
+
             <Stack.Screen
               name="singleProductScreen"
               options={{
@@ -65,18 +66,35 @@ export default function RootLayout() {
               }}
             />
             <Stack.Screen
-              name="liqpayScreen"
-              // options={{
-              //   // presentation: "modal",
-              //   headerShown: false,
-              // }}
+              name="greatsuccess"
+              options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="paymentResult"
-              // options={{
-              //   headerShown: false,
-              // }}
+              name="liqpayScreen"
+              options={{
+                // presentation: "modal",
+                // headerShown: false,
+                title: "натисніть на завершенні ->",
+                headerStyle: {
+                  // backgroundColor: '#f4511e',
+                },
+                // headerTintColor: "#fff",
+                headerTitleStyle: {
+                  fontWeight: 20,
+                },
+                headerBackVisible: false,
+                headerRight: () => <Button title="Ok" />,
+              }}
             />
+
+            {/*<Stack.Screen
+              name="paymentresult"
+              // component={PaymentResult}
+              options={{
+                headerShown: false,
+                headerBackVisible: false,
+              }}
+            />*/}
           </Stack>
         </ThemeProvider>
       </QueryClientProvider>

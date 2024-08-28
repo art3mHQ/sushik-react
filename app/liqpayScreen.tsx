@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import {
 	View,
 	Text,
@@ -6,18 +6,23 @@ import {
 	StatusBar,
 	SafeAreaView,
 	ActivityIndicator,
+	Button,
 } from "react-native";
 
 import { WebView } from "react-native-webview";
 
 import { useNavigation, useRoute } from "@react-navigation/native";
 
+import PaymentResult from "@/components/PaymentResult";
+
 const liqpayScreen = () => {
 	const ref = useRef<WebView>(null);
 
+	const [paymentFinished, setPaymentFinished] = useState(false);
+
 	const navigation = useNavigation();
 	const route = useRoute();
-	let { payurl } = route.params;
+	let { payurl, orderId, orderKey, emptyTheCart } = route.params;
 	console.log("payurl", payurl);
 
 	const handleWebViewMessage = (event) => {
@@ -95,16 +100,56 @@ const liqpayScreen = () => {
 		console.log("url", url);
 
 		// one way to handle a successful form submit is via query strings  || url.includes("checkout/checkout")
-		if (url.includes("success")) {
-			console.log("hey heeeyyyyyyy");
-			ref.current?.stopLoading();
-			// let paymentMethod = "";
-			// maybe close this view?
-			navigation.navigate("paymentResult", { paymentStatus: "success" });
-		}
+		// if (url.includes("success")) {
+		// 	console.log("hey heeeyyyyyyy");
+		// 	ref.current?.stopLoading();
+		// 	// let paymentMethod = "";
+		// 	// maybe close this view?
+		// 	navigation.navigate("paymentresult", {
+		// 		paymentStatus: "success",
+		// 		orderId: orderId,
+		// 	});
+		// }
 	}
+
+	useEffect(() => {
+		// Use `setOptions` to update the button that we previously specified
+		// Now the button includes an `onPress` handler
+		navigation.setOptions({
+			headerRight: () => (
+				<Button
+					onPress={() =>
+						// navigation.navigate("paymentresult", {
+						// paymentStatus: "success",
+						// orderId: orderId,
+						// orderKey: orderKey,
+						// 	// emptyTheCart: emptyTheCart,
+						// })
+						setPaymentFinished(true)
+					}
+					title="Ok"
+				/>
+			),
+		});
+	}, [navigation]);
+
+	if (paymentFinished)
+		return <PaymentResult orderId={orderId} orderKey={orderKey} />;
+
 	const renderLoading = () => {
-		return <ActivityIndicator />;
+		return (
+			<ActivityIndicator
+				style={{
+					position: "absolute",
+					left: 0,
+					right: 0,
+					top: 0,
+					bottom: 0,
+					alignItems: "center",
+					justifyContent: "center",
+				}}
+			/>
+		);
 	};
 
 	return (

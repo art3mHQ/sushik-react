@@ -14,14 +14,14 @@ import {
 	emptyCart,
 	decrementQuantity,
 	incrementQuantity,
-	saveNonce,
-	saveToken,
+	// saveNonce,
+	// saveToken,
 } from "../redux/CartReducer";
 
 function GoodsAdded(props) {
 	const cart = useSelector((state) => state.cart.cart);
-	let nonce = useSelector((state) => state.cart.nonce);
-	let cartToken = useSelector((state) => state.cart.cartToken);
+	// let nonce = useSelector((state) => state.cart.nonce);
+	// let cartToken = useSelector((state) => state.cart.cartToken);
 
 	const dispatch = useDispatch();
 
@@ -39,6 +39,9 @@ function GoodsAdded(props) {
 						fontSize: 15,
 						color: "gray",
 					}}
+					// onPress={() => {
+					// 	dispatch(emptyCart());
+					// }}
 				>
 					ДОДАНІ ТОВАРИ
 				</Text>

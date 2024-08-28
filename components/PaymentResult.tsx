@@ -9,7 +9,7 @@ import {
 	ActivityIndicator,
 } from "react-native";
 
-import { WebView } from "react-native-webview";
+// import { WebView } from "react-native-webview";
 
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 
@@ -22,23 +22,33 @@ import fetchOrderStatus from "../scripts/fetchOrderStatus";
 import { emptyCart } from "../redux/CartReducer";
 import { useDispatch } from "react-redux";
 
-const PaymentResult = () => {
+const PaymentResult = ({ orderId, orderKey }) => {
 	const navigation = useNavigation();
-	const route = useRoute();
-	let { paymentStatus, orderId, orderKey } = route.params;
+	// const route = useRoute();
+	// let { paymentStatus, orderId, orderKey } = route.params;
 
 	const dispatch = useDispatch();
 
 	const orderStatus = useQuery({
 		queryKey: ["orderStatus"],
 		queryFn: () => fetchOrderStatus(orderId, orderKey),
-		staleTime: 1 * 1000,
+		staleTime: 1000,
 	});
 
 	if (orderStatus.isPending) {
 		return (
 			<View style={styles.safecontainer}>
-				<ActivityIndicator />
+				<ActivityIndicator
+					style={{
+						position: "absolute",
+						left: 0,
+						right: 0,
+						top: 0,
+						bottom: 0,
+						alignItems: "center",
+						justifyContent: "center",
+					}}
+				/>
 			</View>
 		);
 	}
@@ -59,7 +69,13 @@ const PaymentResult = () => {
 	}
 	// }
 	console.log("orderId", orderId);
-	console.log("paymentStatus", paymentStatus);
+	// console.log("paymentStatus", paymentStatus);
+
+	function updateNavHeader() {
+		navigation.setOptions({
+			headerShown: false,
+		});
+	}
 
 	function submitHandler() {
 		console.log("im from after after submitHandler");
@@ -79,9 +95,9 @@ const PaymentResult = () => {
 				>
 					<View
 						style={{ alignItems: "center", gap: 8 }}
-						// onLayout={() => {
-						// 	anotherEmptyTheCartHandler();
-						// }}
+						onLayout={() => {
+							updateNavHeader();
+						}}
 					>
 						<Ionicons
 							name="arrow-back"
@@ -93,6 +109,8 @@ const PaymentResult = () => {
 							<Text
 								style={styles.replayStyle}
 								onLayout={() => {
+									console.log("hi from success onLayout");
+
 									dispatch(emptyCart());
 								}}
 							>
